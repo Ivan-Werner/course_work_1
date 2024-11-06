@@ -1,8 +1,10 @@
 import os
 import json
+from datetime import datetime, timedelta
+
 import pandas as pd
-from config import DATA_DIR
-operations_path_xlsx = os.path.join(DATA_DIR, "../data/operations.xlsx")
+from config import DATA_DIR, operations_path_xlsx
+
 
 def xlsx_reading(operations_path_xlsx: str):
     try:
@@ -12,8 +14,24 @@ def xlsx_reading(operations_path_xlsx: str):
     except Exception:
         return []
 
+def greetings(user_name: str):
+    current_date = datetime.now()
+    current_date += timedelta(hours=1)
+    print(current_date.hour)
+    if current_date.hour > 4 and current_date.hour <= 12:
+        print(f"{user_name}, доброе утро!")
+    elif current_date.hour > 12 and current_date.hour <= 18:
+        print(f"{user_name}, добрый день!")
+    elif current_date.hour > 18 and current_date.hour <= 0:
+        print(f"{user_name, }добрый вечер!")
+    else:
+        print(f"{user_name}, доброй ночи!")
+
+
+
 if __name__ == '__main__':
-    print(xlsx_reading(operations_path_xlsx)[0])
+    # print(xlsx_reading(operations_path_xlsx)[0]['Дата операции'])
+    print(greetings("John"))
 
 
 
