@@ -17,21 +17,26 @@ def xlsx_reading(operations_path_xlsx: str):
 def greetings(user_name: str):
     current_date = datetime.now()
     current_date += timedelta(hours=1)
-    print(current_date.hour)
+    # print(current_date.hour)
     if current_date.hour > 4 and current_date.hour <= 12:
         print(f"{user_name}, доброе утро!")
     elif current_date.hour > 12 and current_date.hour <= 18:
         print(f"{user_name}, добрый день!")
     elif current_date.hour > 18 and current_date.hour <= 0:
-        print(f"{user_name, }добрый вечер!")
+        print(f"{user_name, }, добрый вечер!")
     else:
         print(f"{user_name}, доброй ночи!")
 
 
 
 if __name__ == '__main__':
-    # print(xlsx_reading(operations_path_xlsx)[0]['Дата операции'])
-    print(greetings("John"))
+    # print(greetings("John"))
+    # print(xlsx_reading(operations_path_xlsx))
+    main_list = xlsx_reading(operations_path_xlsx)
+
+
+
+
 
 
 
