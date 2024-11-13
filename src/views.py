@@ -7,6 +7,7 @@ from config import DATA_DIR, operations_path_xlsx
 
 
 def xlsx_reading(operations_path_xlsx: str):
+    """Преобразует XLSX-файл в список словарей"""
     try:
         py_file = pd.read_excel(operations_path_xlsx)
         py_dict = py_file.to_dict(orient='records')
@@ -14,27 +15,45 @@ def xlsx_reading(operations_path_xlsx: str):
     except Exception:
         return []
 
-def greetings(user_name: str):
+def greetings():
+    """выводит привествие пользователя в зависимости от времени суток"""
     current_date = datetime.now()
     current_date += timedelta(hours=1)
     # print(current_date.hour)
     if current_date.hour > 4 and current_date.hour <= 12:
-        print(f"{user_name}, доброе утро!")
+        greet = "Доброе утро!"
     elif current_date.hour > 12 and current_date.hour <= 18:
-        print(f"{user_name}, добрый день!")
+        greet = "Добрый день!"
     elif current_date.hour > 18 and current_date.hour <= 0:
-        print(f"{user_name, }, добрый вечер!")
+        greet = "Добрый вечер!"
     else:
-        print(f"{user_name}, доброй ночи!")
+        greet = "Доброй ночи!"
+    return greet
+
+main_list = xlsx_reading(operations_path_xlsx)
+
+def numcards_list(main_list: list) -> list:
+    """Выводит список маскированных номеров карт"""
+    res_list = []
+    for i in main_list:
+        if (i["Номер карты"] not in res_list) and type(i["Номер карты"]) == str:
+            elem = (i["Номер карты"])
+            res_list.append(elem)
+    # num_list = []
+    # for elem in res_list:
+    #     num_list.append(elem[1:])
+
+    return res_list
+
+
+
 
 
 
 if __name__ == '__main__':
-    # print(greetings("John"))
+    print(greetings())
     # print(xlsx_reading(operations_path_xlsx))
-    main_list = xlsx_reading(operations_path_xlsx)
-
-
+    print(numcards_list(main_list))
 
 
 
