@@ -28,10 +28,20 @@ def cashback(total_spent):
     return cashback_list
 
 
-        
+def top_transactions(main_list):
+    """Выводит топ-5 транзакций"""
+    transactions_list = []
+    for i in main_list:
+        transactions_list.append(i["Сумма платежа"])
+        sorted_transaction_list = sorted(transactions_list, reverse=True)
+
+    return sorted_transaction_list[:5]
+
+
 
 if __name__ == '__main__':
-    print(spent(main_list, cards_list))
-    print(cashback(total_spent))
+    # print(spent(main_list, cards_list))
+    # print(cashback(total_spent))
+    print(top_transactions(main_list))
 
 
