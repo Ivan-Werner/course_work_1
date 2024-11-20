@@ -1,10 +1,14 @@
 import os
 import json
+import requests
 from datetime import datetime, timedelta
 
 import pandas as pd
 from config import DATA_DIR, operations_path_xlsx
+from dotenv import load_dotenv
 from views import xlsx_reading, numcards_list, main_list
+
+load_dotenv('.env')
 
 cards_list = numcards_list(main_list)
 
@@ -38,10 +42,29 @@ def top_transactions(main_list):
     return sorted_transaction_list[:5]
 
 
+def stock_api():
+    url = 'https://www.alphavantage.co/query?function=REALTIME_BULK_QUOTES&symbol=MSFT,AAPL,IBM&apikey=demo'
+    token = os.getenv("API_KEY")
+    headers = {"apikey" : token}
+    response = requests.get(url, headers=headers)
+    r = requests.get(url)
+    data = r.json()
+    res = []
+    for i in data['data']:
+        stock_dict = {}
+        stock_dict['stock'] = i['symbol']
+        stock_dict['price'] = i['open']
+        res.append(stock_dict)
+    return res
+
+
+
 
 if __name__ == '__main__':
     # print(spent(main_list, cards_list))
     # print(cashback(total_spent))
     print(top_transactions(main_list))
+    print(stock_api())
+
 
 
