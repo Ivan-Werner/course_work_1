@@ -1,5 +1,7 @@
 import os
 import json
+from http.client import responses
+
 import requests
 from datetime import datetime, timedelta
 
@@ -8,9 +10,10 @@ from config import DATA_DIR, operations_path_xlsx
 from dotenv import load_dotenv
 from views import xlsx_reading, numcards_list, main_list
 
-load_dotenv('.env')
+load_dotenv('../.env')
 
 cards_list = numcards_list(main_list)
+main_list = xlsx_reading(operations_path_xlsx)
 
 def spent(main_list, cards_list):
     """Высчитывает общую сумму расходов по карте"""
@@ -43,8 +46,9 @@ def top_transactions(main_list):
 
 
 def stock_api():
+    """Получает по API курсы акций и записывает их в список"""
     url = 'https://www.alphavantage.co/query?function=REALTIME_BULK_QUOTES&symbol=MSFT,AAPL,IBM&apikey=demo'
-    token = os.getenv("API_KEY")
+    token = os.getenv("API_KEY_stocks")
     headers = {"apikey" : token}
     response = requests.get(url, headers=headers)
     r = requests.get(url)
@@ -58,13 +62,43 @@ def stock_api():
     return res
 
 
+def currencies(main_list: list) -> list:
+    """Определяем какие валюты присутствуют в нашем файле"""
+    currency_list = []
+    for i in main_list:
+        if i["Валюта операции"] != "RUB":
+            currency_list.append(i["Валюта операции"])
+    currency_list = list(set(currency_list))
+    return currency_list
+
+
+def currency_price(currency_list):
+    url = f"https://api.apilayer.com/exchangerates_data/convert?to=RUB&from=USD&amount=1"
+    token = os.getenv("API_KEY_currency")
+    headers = {"apikey" : token}
+    res = []
+    for i in currency_list:
+        currency_dict = {}
+        response = requests.get(f"https://api.apilayer.com/exchangerates_data/convert?to=RUB&from={i}&amount=1", headers=headers)
+        data = response.json()
+        currency_dict["currency"] = i
+        currency_dict["price"] = round(data["info"]["rate"], 2)
+        res.append(currency_dict)
+    return res
+
+
+
+
 
 
 if __name__ == '__main__':
     # print(spent(main_list, cards_list))
     # print(cashback(total_spent))
-    print(top_transactions(main_list))
-    print(stock_api())
+    # print(top_transactions(main_list))
+    # print(stock_api())
+    # print(currencies(main_list))
+    print(currency_price(currencies(main_list)))
+
 
 
 
