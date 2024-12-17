@@ -9,7 +9,7 @@ from datetime import datetime, timedelta
 import pandas as pd
 from config import DATA_DIR, operations_path_xlsx
 from dotenv import load_dotenv
-from views import xlsx_reading, numcards_list, main_list
+from utils import xlsx_reading, numcards_list, main_list
 
 def simple_search(main_list):
     """Функция реализует поиск по ключам Категория и Описание"""
@@ -23,5 +23,8 @@ def simple_search(main_list):
 
 if __name__ == '__main__':
     s = simple_search(main_list)
-    print(s)
+    # for i in s:
+    #     print(i)
+    res = json.dumps(s, ensure_ascii=False, indent=4)
+    print(res)
 

@@ -8,12 +8,39 @@ from datetime import datetime, timedelta
 import pandas as pd
 from config import DATA_DIR, operations_path_xlsx
 from dotenv import load_dotenv
-from views import xlsx_reading, numcards_list, main_list
+# from views import xlsx_reading, numcards_list, main_list
 
 load_dotenv('../.env')
 
-cards_list = numcards_list(main_list)
+
+
+
+def xlsx_reading(operations_path_xlsx: str):
+    """Преобразует XLSX-файл в список словарей"""
+    try:
+        py_file = pd.read_excel(operations_path_xlsx)
+        py_dict = py_file.to_dict(orient='records')
+        return py_dict
+    except Exception:
+        return []
+
 main_list = xlsx_reading(operations_path_xlsx)
+
+
+def numcards_list(main_list: list) -> list:
+    """Выводит список маскированных номеров карт"""
+    res_list = []
+    for i in main_list:
+        if (i["Номер карты"] not in res_list) and type(i["Номер карты"]) == str:
+            elem = (i["Номер карты"])
+            res_list.append(elem)
+    # num_list = []
+    # for elem in res_list:
+    #     num_list.append(elem[1:])
+
+    return res_list
+
+cards_list = numcards_list(main_list)
 
 def spent(main_list, cards_list):
     """Высчитывает общую сумму расходов по карте"""
@@ -37,12 +64,26 @@ def cashback(total_spent):
 
 def top_transactions(main_list):
     """Выводит топ-5 транзакций"""
+    global sorted_transaction_list
     transactions_list = []
+    res_list = []
     for i in main_list:
         transactions_list.append(i["Сумма платежа"])
-        sorted_transaction_list = sorted(transactions_list, reverse=True)
+        sorted_transaction_list = sorted(transactions_list, reverse=True)[:5]
 
-    return sorted_transaction_list[:5]
+    for payment in sorted_transaction_list:
+        for rec in main_list:
+            transaction_dict = {}
+            if payment == rec["Сумма платежа"]:
+                transaction_dict["date"] = rec["Дата платежа"]
+                transaction_dict["amount"] = payment
+                transaction_dict["category"] = rec["Категория"]
+                transaction_dict["description"] = rec["Описание"]
+                res_list.append(transaction_dict)
+
+
+    # return sorted_transaction_list
+    return res_list[:5]
 
 
 def stock_api():
@@ -73,6 +114,7 @@ def currencies(main_list: list) -> list:
 
 
 def currency_price(currency_list):
+    """Получает по API актуальный курс валют"""
     url = f"https://api.apilayer.com/exchangerates_data/convert?to=RUB&from=USD&amount=1"
     token = os.getenv("API_KEY_currency")
     headers = {"apikey" : token}
@@ -82,7 +124,7 @@ def currency_price(currency_list):
         response = requests.get(f"https://api.apilayer.com/exchangerates_data/convert?to=RUB&from={i}&amount=1", headers=headers)
         data = response.json()
         currency_dict["currency"] = i
-        currency_dict["price"] = round(data["info"]["rate"], 2)
+        currency_dict["rate"] = round(data["info"]["rate"], 2)
         res.append(currency_dict)
     return res
 
@@ -92,12 +134,17 @@ def currency_price(currency_list):
 
 
 if __name__ == '__main__':
+    # print(xlsx_reading(operations_path_xlsx))
+    # print(numcards_list(main_list))
     # print(spent(main_list, cards_list))
     # print(cashback(total_spent))
     # print(top_transactions(main_list))
+    # for i in top_transactions(main_list):
+    #     print(i)
     # print(stock_api())
     # print(currencies(main_list))
     print(currency_price(currencies(main_list)))
+
 
 
 
