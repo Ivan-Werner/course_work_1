@@ -18,9 +18,18 @@ from utils import xlsx_reading, numcards_list, main_list
 
 transactions = pd.DataFrame(main_list)
 
+def csv_decorator(func):
+    def wrapper(*args, **kwargs):
+        result = func(*args, **kwargs)
+        return result.to_csv("report_category.csv")
+    return wrapper
+
+
 
 date_now = datetime.now().date()
 date = date_now.strftime("%d.%m.%Y")
+
+@csv_decorator
 def spending_by_category(transactions: pd.DataFrame, category: str, date=date) -> pd.DataFrame:
     """Функция возвращает траты по заданной категории за последние три месяца (от переданной даты)."""
     main_list = transactions.to_dict("records")
@@ -46,6 +55,7 @@ if __name__ == '__main__':
     # for i in main_list:
     #     print(i)
     # print(date_now)
-    result = spending_by_category(transactions, "Цветы", "10.10.2021")
-    print(result)
+    # result = spending_by_category(transactions, "Цветы", "10.10.2021")
+    # print(result)
+    spending_by_category(transactions, "Цветы", "10.10.2021")
 

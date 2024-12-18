@@ -40,9 +40,6 @@ def greetings():
 def res_output(greeting, num_list, spent_list, cashback_list, top_transaction_list, currency_list, stock_list):
     res = {}
     cards_list = []
-
-    currency_list_res = []
-    stocks = []
     res["greeting"] = greeting
     for i in range(len(num_list)):
         card_dict = {}
