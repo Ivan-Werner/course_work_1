@@ -102,13 +102,12 @@ def stock_api():
     headers = {"apikey" : token}
     response = requests.get(url, headers=headers)
     data = response.json()
+    print(type(data))
     res = []
     for i in data['data']:
-        stock_dict = {}
-        stock_dict['stock'] = i['symbol']
-        stock_dict['price'] = i['open']
+        stock_dict = {'stock': i['symbol'], 'price': i['open']}
         res.append(stock_dict)
-    return res
+    return res[0]
 
 
 def currencies(main_list: list) -> list:
@@ -148,6 +147,7 @@ if __name__ == '__main__':
     # print(cashback(total_spent))
     # print(top_transactions(main_list))
     print(stock_api())
+
     # print(currencies(main_list))
     # print(currency_price(currencies(main_list)))
 

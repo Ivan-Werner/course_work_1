@@ -2,8 +2,10 @@ from src.utils import xlsx_reading, main_list, numcards_list, spent, cards_list,
     top_transactions, cashback, currency_price, stock_api
 from tests.conftest import test_main_list, short_top_transactions, test_empty_file, test_currencies_list
 from unittest.mock import patch
-import pytest
+import requests
 
+# def _create_stock(stock_code, amount):
+#     return {'data': {'open': 10.0}}
 
 def test_empty_xlsx_reading(test_empty_file):
     assert xlsx_reading(test_empty_file) == []
@@ -25,8 +27,12 @@ def test_top_transactions(test_main_list, short_top_transactions):
     assert top_transactions(test_main_list) == short_top_transactions
 
 
-@patch('')
-def test_stock_api():
+@patch('requests.get')
+def test_stock_api(mock_get):
+    mock_get.return_value.json.return_value = {'data' : {'stock': 'MSFT', 'price': '10.0'}}
+    mock_get.return_value.status_code = 200
+
+    assert stock_api() == {'data' : {'stock': 'MSFT', 'price': '10.0'}}
 
 
 
