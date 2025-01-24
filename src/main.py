@@ -32,7 +32,7 @@ def report_running():
         print("Неверный формат даты")
 
 
-if __name__ == '__main__':
-    # print(transactions_running())
-    # service_running()
-    report_running()
+# if __name__ == '__main__':
+#     print(transactions_running())
+#     service_running()
+#     report_running()
