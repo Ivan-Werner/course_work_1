@@ -3,35 +3,20 @@ import json
 import pandas as pd
 from datetime import datetime, timedelta
 
-# from openpyxl.styles.builtins import currency
-#
-from src.utils import main_list, cards_list, total_spent, top_transactions
-from src.utils import main_list, numcards_list, spent, cashback, currency_price, currencies, stock_api
-#
-# from config import DATA_DIR, operations_path_xlsx
-#
-#
-#
-# from src.utils import  spent, cashback, cards_list, main_list
-
-# currency_list = currency_price(currencies(main_list))
 
 
-
-def greetings():
-    """Dыводит привествие пользователя в зависимости от времени суток"""
-    current_date = datetime.now()
-    current_date += timedelta(hours=1)
-    # print(current_date.hour)
-    if current_date.hour > 4 and current_date.hour <= 12:
-        greet = "Доброе утро!"
-    elif current_date.hour > 12 and current_date.hour <= 18:
-        greet = "Добрый день!"
-    elif current_date.hour > 18 and current_date.hour <= 0:
-        greet = "Добрый вечер!"
+def greetings() -> str:
+    """Функция, которая возвращает строку с приветствием в зависимости от времени."""
+    hour = int(datetime.now().strftime('%H'))
+    if 6 <= hour <= 12:
+        return 'Доброе утро!'
+    elif 13 <= hour <= 17:
+        return 'Добрый день!'
+    elif 18 <= hour <= 23:
+        return 'Добрый вечер!'
     else:
-        greet = "Доброй ночи!"
-    return greet
+        return 'Доброй ночи!'
+
 
 # main_list = xlsx_reading(operations_path_xlsx)
 

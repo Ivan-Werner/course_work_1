@@ -133,4 +133,3 @@ def test_pattern():
 @pytest.fixture
 def test_currencies_list():
     return ['CNY', 'USD']
-

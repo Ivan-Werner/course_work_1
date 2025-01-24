@@ -27,4 +27,3 @@ def test_csv_decorator(mocker):
     test_function()
     #Проверяем, что метод to_csv был вызван с правильными аргументами
     mock_to_csv.assert_called_once_with('report_category.csv', index=False)
-

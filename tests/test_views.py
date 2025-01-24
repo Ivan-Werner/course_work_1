@@ -8,11 +8,11 @@ import pytest
 from src.views import greetings
 
 
-# def test_greetings():
-#     mock_greet = Mock(return_value="Доброе утро!")
-#     greetings = mock_greet
-#     assert greetings() == "Доброе утро!"
-#     mock_greet.assert_called_once_with()
+def test_greetings():
+    mock_greet = Mock(return_value="Доброе утро!")
+    greetings = mock_greet
+    assert greetings() == "Доброе утро!"
+    mock_greet.assert_called_once_with()
 
 # TEST_CASES = [
 #     (datetime(2023, 10, 15, 5), "Доброе утро!"),
@@ -34,7 +34,21 @@ from src.views import greetings
 #         actual_greeting = greetings()
 #         assert actual_greeting == expected_greeting
 
-def test_greetings('greetings'):
+@pytest.mark.parametrize(
+    ("now_datetime", "expected_greeting"),
+    [
+        (datetime(2023, 10, 15, hour=6), "Доброе утро!"),
+        (datetime(2023, 10, 15, hour=14), "Добрый день!"),
+        (datetime(2023, 10, 16, hour=18), "Добрый вечер!"),
+        (datetime(2023, 10, 16, hour=0), "Доброй ночи!"),
+    ],
+)
+@patch("src.views.datetime")
+def test_get_greeting(mocked_datetime, now_datetime, expected_greeting):
+    mocked_datetime.now.return_value = now_datetime
+    assert greetings() == expected_greeting
+
+
 
 
 
