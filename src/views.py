@@ -22,7 +22,7 @@ def greetings() -> str:
 
 
 def res_output(greeting, num_list, spent_list, cashback_list, top_transaction_list, currency_list, stock_list):
-    """Функция осуществляет вывод общей информации по банковским транзакциям"""
+    """Функция осуществляет вывод общей информации по банковским транзакциям."""
     res = {}
     cards_list = []
     res["greeting"] = greeting
