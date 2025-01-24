@@ -106,25 +106,25 @@ def test_total_spent():
 @pytest.fixture
 def short_top_transactions():
     return [{'amount': 174000.0,
-  'category': 'Пополнения',
-  'date': '30.12.2021',
-  'description': 'Пополнение через Газпромбанк'},
- {'amount': -13.67,
-  'category': 'Переводы',
-  'date': '01.10.2019',
-  'description': 'Перевод между счетами'},
- {'amount': -64.0,
-  'category': 'Супермаркеты',
-  'date': '31.12.2021',
-  'description': 'Колхоз'},
- {'amount': -160.89,
-  'category': 'Супермаркеты',
-  'date': '31.12.2021',
-  'description': 'Колхоз'},
- {'amount': -1129.5,
-  'category': 'НКО',
-  'date': '30.08.2021',
-  'description': 'Association For Computing'}]
+             'category': 'Пополнения',
+             'date': '30.12.2021',
+             'description': 'Пополнение через Газпромбанк'},
+            {'amount': -13.67,
+             'category': 'Переводы',
+             'date': '01.10.2019',
+             'description': 'Перевод между счетами'},
+            {'amount': -64.0,
+             'category': 'Супермаркеты',
+             'date': '31.12.2021',
+             'description': 'Колхоз'},
+            {'amount': -160.89,
+             'category': 'Супермаркеты',
+             'date': '31.12.2021',
+             'description': 'Колхоз'},
+            {'amount': -1129.5,
+             'category': 'НКО',
+             'date': '30.08.2021',
+             'description': 'Association For Computing'}]
 
 @pytest.fixture
 def test_pattern():
@@ -133,4 +133,3 @@ def test_pattern():
 @pytest.fixture
 def test_currencies_list():
     return ['CNY', 'USD']
-

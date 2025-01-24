@@ -1,16 +1,12 @@
-import os
-import json
-from http.client import responses
 import logging
-import requests
+import os
 from datetime import datetime, timedelta
 
-
-
 import pandas as pd
-from config import DATA_DIR, operations_path_xlsx, LOG_DIR
+import requests
 from dotenv import load_dotenv
 
+from config import DATA_DIR, LOG_DIR, operations_path_xlsx
 
 load_dotenv('../.env')
 
