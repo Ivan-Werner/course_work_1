@@ -1,11 +1,13 @@
+import pytest
+
 from src.utils import xlsx_reading, main_list, numcards_list, spent, cards_list, total_spent, currencies, \
     top_transactions, cashback, currency_price, stock_api
 from tests.conftest import test_main_list, short_top_transactions, test_empty_file, test_currencies_list
-from unittest.mock import patch
+from unittest import mock
 import requests
 
-# def _create_stock(stock_code, amount):
-#     return {'data': {'open': 10.0}}
+def _create_stock(amount):
+    return {'stock': 'MSFT', 'price': amount}
 
 def test_empty_xlsx_reading(test_empty_file):
     assert xlsx_reading(test_empty_file) == []
@@ -27,12 +29,44 @@ def test_top_transactions(test_main_list, short_top_transactions):
     assert top_transactions(test_main_list) == short_top_transactions
 
 
-@patch('requests.get')
-def test_stock_api(mock_get):
-    mock_get.return_value.json.return_value = {'data' : {'stock': 'MSFT', 'price': '10.0'}}
-    mock_get.return_value.status_code = 200
+MOCK_RESPONSE_DATA = {
+    'data': [
+        {
+            'symbol': 'MSFT',
+            'price': '150.00'
+        },
+        {
+            'symbol': 'AAPL',
+            'price': '200.00'
+        },
+        {
+            'symbol': 'IBM',
+            'price': '100.00'
+        }
+    ]
+}
 
-    assert stock_api() == {'data' : {'stock': 'MSFT', 'price': '10.0'}}
+
+@pytest.fixture
+def mocker():
+    with mock.patch('requests.get') as mock_get:
+        yield mock_get
+
+@pytest.fixture(autouse=True)
+def set_env_vars(monkeypatch):
+    monkeypatch.setenv("API_KEY_stocks", "fake_token")
+
+def test_stock_api(mocker):
+    mock_response = mocker.Mock()
+    mock_response.return_value.json.return_value = MOCK_RESPONSE_DATA
+    # mock_get = mocker.patch('requests.get', return_value=mock_response)
+    mock_get = mocker
+    result = stock_api()
+
+    assert mock_get.called
+    assert result == []
+
+
 
 
 
@@ -43,10 +77,7 @@ def test_currencies(test_main_list):
 
 
 
-# @patch('requests.get')
-# def test_currency_price(mock_get):
-#     price_tested =
-#     mock_get.return_value.status_code = 200
+
 
 
 

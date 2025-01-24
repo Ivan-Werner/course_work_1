@@ -14,7 +14,7 @@ from pandas.core.interchange.dataframe_protocol import DataFrame
 from config import LOG_DIR
 from config import DATA_DIR, operations_path_xlsx
 from dotenv import load_dotenv
-from utils import xlsx_reading, numcards_list, main_list
+from src.utils import xlsx_reading, numcards_list, main_list
 
 transactions = pd.DataFrame(main_list)
 

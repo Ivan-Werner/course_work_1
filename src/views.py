@@ -5,8 +5,8 @@ from datetime import datetime, timedelta
 
 # from openpyxl.styles.builtins import currency
 #
-# from src.utils import main_list, cards_list, total_spent, top_transactions
-# from src.utils import main_list, numcards_list, spent, cashback, currency_price, currencies, stock_api
+from src.utils import main_list, cards_list, total_spent, top_transactions
+from src.utils import main_list, numcards_list, spent, cashback, currency_price, currencies, stock_api
 #
 # from config import DATA_DIR, operations_path_xlsx
 #
@@ -19,7 +19,7 @@ from datetime import datetime, timedelta
 
 
 def greetings():
-    """выводит привествие пользователя в зависимости от времени суток"""
+    """Dыводит привествие пользователя в зависимости от времени суток"""
     current_date = datetime.now()
     current_date += timedelta(hours=1)
     # print(current_date.hour)

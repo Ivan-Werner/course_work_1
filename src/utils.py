@@ -107,7 +107,7 @@ def stock_api():
     for i in data['data']:
         stock_dict = {'stock': i['symbol'], 'price': i['open']}
         res.append(stock_dict)
-    return res[0]
+    return res
 
 
 def currencies(main_list: list) -> list:
