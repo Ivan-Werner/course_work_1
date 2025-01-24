@@ -13,8 +13,3 @@ def test_report_running(mock_input):
     mock_input.return_value = "empty"
     mock_input.return_value = '10.10.2021'
     assert report_running() is None
-
-
-
-
-

@@ -1,20 +1,12 @@
-import os
-import json
-from http.client import responses
-import re
-from typing import Optional
-from unittest.mock import inplace
-
-import requests
 import calendar
-from datetime import datetime, timedelta
 import logging
+import os
+from datetime import datetime, timedelta
+
 import pandas as pd
-from pandas.core.interchange.dataframe_protocol import DataFrame
+
 from config import LOG_DIR
-from config import DATA_DIR, operations_path_xlsx
-from dotenv import load_dotenv
-from src.utils import xlsx_reading, numcards_list, main_list
+from src.utils import main_list
 
 transactions = pd.DataFrame(main_list)
 
@@ -27,6 +19,7 @@ file_formatter = logging.Formatter("%(asctime)s - %(filename)s - %(levelname)s :
 file_handler.setFormatter(file_formatter)
 logger.addHandler(file_handler)
 
+
 def csv_decorator(func):
     def wrapper(*args, **kwargs):
         result = func(*args, **kwargs)
@@ -34,12 +27,12 @@ def csv_decorator(func):
     return wrapper
 
 
-
 date_now = datetime.now().date()
-date = date_now.strftime("%d.%m.%Y")
+date_today = date_now.strftime("%d.%m.%Y")
+
 
 @csv_decorator
-def spending_by_category(transactions: pd.DataFrame, category: str, date=date) -> pd.DataFrame:
+def spending_by_category(transactions: pd.DataFrame, category: str, date=date_today) -> pd.DataFrame:
     """Функция возвращает траты по заданной категории за последние три месяца (от переданной даты)."""
     main_list = transactions.to_dict("records")
     source_category_list = []
@@ -59,7 +52,6 @@ def spending_by_category(transactions: pd.DataFrame, category: str, date=date) -
     return pd.DataFrame(res)
 
 
-
 if __name__ == '__main__':
     # for i in main_list:
     #     print(i)
@@ -67,4 +59,3 @@ if __name__ == '__main__':
     # result = spending_by_category(transactions, "Цветы", "10.10.2021")
     # print(result)
     spending_by_category(transactions, "Цветы", "10.10.2021")
-

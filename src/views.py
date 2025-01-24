@@ -1,8 +1,8 @@
-import os
 import json
-import pandas as pd
+import os
 from datetime import datetime, timedelta
 
+import pandas as pd
 
 
 def greetings() -> str:
@@ -21,8 +21,8 @@ def greetings() -> str:
 # main_list = xlsx_reading(operations_path_xlsx)
 
 
-
 def res_output(greeting, num_list, spent_list, cashback_list, top_transaction_list, currency_list, stock_list):
+    """Функция осуществляет вывод общей информации по банковским транзакциям"""
     res = {}
     cards_list = []
     res["greeting"] = greeting
@@ -46,14 +46,11 @@ def res_output(greeting, num_list, spent_list, cashback_list, top_transaction_li
 if __name__ == '__main__':
     print(greetings())
     # print(currency_price(main_list))
-    # print(res_output(greetings(), numcards_list(main_list), spent(main_list, cards_list), cashback(total_spent), top_transactions(main_list), currency_price(currencies(main_list)), stock_api()))
+    # print(res_output(greetings(), numcards_list(main_list), spent(main_list, cards_list),
+    # cashback(total_spent), top_transactions(main_list), currency_price(currencies(main_list)), stock_api()))
     # print(top_transactions(main_list))
     # print(stock_api())
     # for i in stock_api():
     #     print(i)
     # print(currencies(main_list))
     # print(main_list)
-
-
-
-

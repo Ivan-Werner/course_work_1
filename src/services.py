@@ -1,18 +1,11 @@
-import os
 import json
-from http.client import responses
-import re
 import logging
+import os
+import re
+from http.client import responses
 
 from config import LOG_DIR
-# import requests
-# from datetime import datetime, timedelta
-#
-# import pandas as pd
-# from config import DATA_DIR, operations_path_xlsx
-# from dotenv import load_dotenv
-from src.utils import xlsx_reading, numcards_list, main_list
-
+from src.utils import main_list, numcards_list, xlsx_reading
 
 utils_log_path = os.path.join(LOG_DIR, "services.log")
 
