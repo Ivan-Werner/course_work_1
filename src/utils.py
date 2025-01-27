@@ -72,23 +72,25 @@ def cashback(total_spent: list):
 def top_transactions(main_list: list):
     """Выводит топ-5 транзакций"""
     global sorted_transaction_list
-    transactions_list = []
-    res_list = []
-    for i in main_list:
-        transactions_list.append(i["Сумма платежа"])
-        sorted_transaction_list = sorted(transactions_list, reverse=True)[:5]
-
-    for payment in sorted_transaction_list:
-        for rec in main_list:
-            transaction_dict = {}
-            if payment == rec["Сумма платежа"]:
-                transaction_dict["date"] = rec["Дата платежа"]
-                transaction_dict["amount"] = payment
-                transaction_dict["category"] = rec["Категория"]
-                transaction_dict["description"] = rec["Описание"]
-                res_list.append(transaction_dict)
-    logger.info(f"Output top-5 transactions")
-    return res_list[:5]
+    if main_list == []:
+        return "Данные по транзакциям отсутствуют"
+    else:
+        transactions_list = []
+        res_list = []
+        for i in main_list:
+            transactions_list.append(i["Сумма платежа"])
+            sorted_transaction_list = sorted(transactions_list, reverse=True)[:5]
+        for payment in sorted_transaction_list:
+            for rec in main_list:
+                transaction_dict = {}
+                if payment == rec["Сумма платежа"]:
+                    transaction_dict["date"] = rec["Дата платежа"]
+                    transaction_dict["amount"] = payment
+                    transaction_dict["category"] = rec["Категория"]
+                    transaction_dict["description"] = rec["Описание"]
+                    res_list.append(transaction_dict)
+        logger.info(f"Output top-5 transactions")
+        return res_list[:5]
 
 
 def stock_api():
@@ -98,7 +100,7 @@ def stock_api():
     headers = {"apikey" : token}
     response = requests.get(url, headers=headers)
     data = response.json()
-    print(type(data))
+    # print(type(data))
     res = []
     for i in data['data']:
         stock_dict = {'stock': i['symbol'], 'price': i['open']}
@@ -137,12 +139,12 @@ def currency_price(currency_list: list):
 
 
 if __name__ == '__main__':
-    # print(xlsx_reading(operations_path_xlsx))
+    print(xlsx_reading(operations_path_xlsx))
     # print(numcards_list(main_list))
     # print(spent(main_list, cards_list))
     # print(cashback(total_spent))
     # print(top_transactions(main_list))
-    print(stock_api())
+    # print(stock_api())
 
     # print(currencies(main_list))
     # print(currency_price(currencies(main_list)))
