@@ -127,6 +127,10 @@ def short_top_transactions():
              'description': 'Association For Computing'}]
 
 @pytest.fixture
+def test_empty_list():
+    return []
+
+@pytest.fixture
 def test_pattern():
     return "НКО"
 

@@ -29,6 +29,10 @@ def test_top_transactions(test_main_list, short_top_transactions):
     assert top_transactions(test_main_list) == short_top_transactions
 
 
+def test_top_transactions_empty(test_empty_list):
+    assert top_transactions(test_empty_list) == 'Данные по транзакциям отсутствуют'
+
+
 MOCK_RESPONSE_DATA = {
     'data': [
         {
@@ -70,3 +74,6 @@ def test_stock_api(mocker):
 
 def test_currencies(test_main_list):
     assert currencies(test_main_list) == ['CNY', 'USD']
+
+
+

@@ -8,7 +8,7 @@ import pandas as pd
 from config import LOG_DIR
 from src.utils import main_list
 
-transactions = pd.DataFrame(main_list)
+transactions_df = pd.DataFrame(main_list)
 
 utils_log_path = os.path.join(LOG_DIR, "reports.log")
 
@@ -32,16 +32,17 @@ date_today = date_now.strftime("%d.%m.%Y")
 
 
 @csv_decorator
-def spending_by_category(transactions: pd.DataFrame, category: str, date=date_today) -> pd.DataFrame:
+def spending_by_category(transactions_df: pd.DataFrame, category: str, date=date_today) -> pd.DataFrame:
     """Функция возвращает траты по заданной категории за последние три месяца (от переданной даты)."""
-    main_list = transactions.to_dict("records")
+    main_list = transactions_df.to_dict("records")
     source_category_list = []
     res = []
     for i in main_list:
-        if i["Категория"] == category:
+        if str(i["Категория"]).lower() == category.lower():
             source_category_list.append(i)
     logger.info("Source category list is forming")
     current_date = datetime.strptime(date, "%d.%m.%Y").date()
+    # print(current_date)
     days_in_month = calendar.monthrange(current_date.year, current_date.month)[1]
     left_date = current_date - timedelta(days=days_in_month) * 3
     for i in source_category_list:
@@ -58,4 +59,4 @@ if __name__ == '__main__':
     # print(date_now)
     # result = spending_by_category(transactions, "Цветы", "10.10.2021")
     # print(result)
-    spending_by_category(transactions, "Цветы", "10.10.2021")
+    spending_by_category(transactions_df, "Цветы", "10.10.2021")
